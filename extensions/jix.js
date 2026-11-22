@@ -174,32 +174,34 @@
         };
     }
 
-    Scratch.vm.exports.compiler.register('dmnjix', {
-        jessie: {
-            type: "any",
-            compile: ({ input }) => `JixRunner.execute(${input.string('CODE')}, JixRunner.__self)`
-        },
-
-        set: {
-            type: "command",
-            compile: ({ input }) => `JixRunner.__self[${input.string('VAR')}]=${input('ANY')}`
-        },
-
-        save: {
-            type: "any",
-            compile: () => `{...JixRunner.__self}`
-        },
-
-        restore: {
-            type: "command",
-            compile: ({ input }) => `JixRunner.__self = ${input('ENV')}`
-        },
-
-        reset: {
-            type: "command",
-            compile: () => `JixRunner.__self = {...JixRunner.builtin}`
-        },
-    });
-
+    if (Scratch.vm.exports.compiler) {
+        Scratch.vm.exports.compiler.register('dmnjix', {
+            jessie: {
+                type: "any",
+                compile: ({ input }) => `JixRunner.execute(${input.string('CODE')}, JixRunner.__self)`
+            },
+        
+            set: {
+                type: "command",
+                compile: ({ input }) => `JixRunner.__self[${input.string('VAR')}]=${input('ANY')}`
+            },
+        
+            save: {
+                type: "any",
+                compile: () => `{...JixRunner.__self}`
+            },
+        
+            restore: {
+                type: "command",
+                compile: ({ input }) => `JixRunner.__self = ${input('ENV')}`
+            },
+        
+            reset: {
+                type: "command",
+                compile: () => `JixRunner.__self = {...JixRunner.builtin}`
+            },
+        });
+    }
+    
     Scratch.extensions.register(new Extension());
 })(Scratch);
